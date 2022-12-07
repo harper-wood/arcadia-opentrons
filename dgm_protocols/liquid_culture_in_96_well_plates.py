@@ -31,8 +31,8 @@ def run(protocol: protocol_api.ProtocolContext):
  reservoir = protocol.load_labware('opentrons_6_tuberack_falcon_50ml_conical',2)
  radius=13.5
  max_vol=50
- reservoir_pos=['A1','A2','A3','B1','B2','B3']
-  
+ #reservoir_pos=['A1','A2','A3','B1','B2','B3']
+ reservoir_pos=['A1','A3']
  res_heights={}
  for x in reservoir_pos:
   res_heights[x]=res_initial
@@ -49,7 +49,6 @@ def run(protocol: protocol_api.ProtocolContext):
   print('not enough volume in reservoirs')
   sys.exit()
  
- #row_dct={0:'A',1:'B',2:'C',3:'D',4:'E',5:'F',6:'G',7:'H'}
  rows=['A','B','C','D','E','F','G','H']
  well_dct={}
  curr_well=0
