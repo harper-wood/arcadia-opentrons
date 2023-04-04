@@ -176,9 +176,11 @@ We will walk through this section in some detail to be sure we know what is goin
 
 Lets look at the next few lines:
 ```python
-#distribute diluent
 p300.transfer(100, reservoir['A1'], plate.wells())
 ```
 Here, we are asking the robot to use the 'p300' object to 'transfer' 100ul from reservoir position A1 to all of the wells in the 'plate'.
-This is kind of a lot packed into a small amount of code, but it takes advantage of many aspects of the API that make programming the opentrons relatively easy.
-Because we defined 'p300' as 'p300_single_gen2' the robot knows that the 'p300' object has a 'attribute' called 'transfer' and that 'transfer' requires a series of inputs: first, how much to transfer(100ul); second, where to transfer from(reservoir['A1']); third, where to transfer to (plate.wells()).
+This is kind of a lot packed into a small amount of code, but it takes advantage of many aspects of the API that make programming the opentrons relatively easy and is worth walking through in some detail.
+
+Because we defined 'p300' as 'p300_single_gen2' the robot knows that the 'p300' object has a 'attribute' called 'transfer' and that 'transfer' requires a series of inputs. First: how much to transfer (100ul), second: where to transfer from (reservoir['A1']), third: where to transfer to (plate.wells()). \n
+Because we defined 'reservoir' as 'nest_12_reservoir_15ml' the robot knows that the 'reservoir' object has a position 'A1' \n
+Because we defined 'plate' as nest_96_wellplate_200ul_flat' the robot knows that the 'plate' object has an atribute called 'wells()' which can be iterated over.  Furthermore, it knows that it should iterate over all of the wells if any one well isn't specified. \n
