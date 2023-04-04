@@ -197,3 +197,17 @@ plate.wells()
 ```
 Because we defined 'plate' as nest_96_wellplate_200ul_flat' the robot knows that the 'plate' object has an atribute called 'wells()' which can be iterated over.  Furthermore, it knows that it should iterate over all of the wells if any one well isn't specified.
 
+This next chunk of code takes advantage of a few other features of the API to iterate through specific rows in the plate.
+```python
+        # loop through each row
+        for i in range(8):
+
+                # save the destination row to a variable
+                row = plate.rows()[i]
+
+                # transfer solution to first well in column
+                p300.transfer(100, reservoir['A2'], row[0], mix_after=(3, 50))
+
+                # dilute the sample down the row
+                p300.transfer(100, row[:11], row[1:], mix_after=(3, 50))    
+```
