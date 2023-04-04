@@ -47,7 +47,8 @@ So, lets look at the code:
 
 
 
-```from opentrons import protocol_api
+```python
+from opentrons import protocol_api
 
 metadata = {
     'apiLevel': '2.13',
