@@ -45,9 +45,9 @@ and a full walkthrough of the example is available [here](https://docs.opentrons
 
 So, lets look at the code:
 
-'''
 
-from opentrons import protocol_api
+
+'''from opentrons import protocol_api
 
 metadata = {
     'apiLevel': '2.13',
