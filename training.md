@@ -43,6 +43,7 @@ This protocol is for generating serial dilutions on a 96 well plate.
 The github repository for this example is availbale [here](https://github.com/Opentrons/opentrons/blob/edge/api/docs/v2/example_protocols/dilution_tutorial.py)
 and a full walkthrough of the example is available [here](https://docs.opentrons.com/v2/tutorial.html#tutorial)
 
+# Everything:
 So, lets look at the code for this protocol:
 
 ```python
@@ -83,13 +84,14 @@ def run(protocol: protocol_api.ProtocolContext):
 
 This protocol contains three main sections:
 
+# Import:
 First, the imported packages:
 ```python
 from opentrons import protocol_api
 ```
 Here, we import any of the 'packages' that we might need access to in order to execute our program. In different settings, this might have different things (e.g. math, os, sys, sklearn, etc...), but, for this protocol we only need the opentrons API.
 
-
+# Metadata and 'context'
 Second, the metadata that the Opentrons API requires:
 ```python
 metadata = {
@@ -105,6 +107,7 @@ metadata = {
 ```
 This is a mandatory section for any Opentrons protocol and it must contain, at a minimum, the information provided above. Most critical is the API level which tells the robot which version of the firmware it should be using to interpret your protocol.
 
+#The protocol
 Third, the protocol itself:
 ```python
 def run(protocol: protocol_api.ProtocolContext):
@@ -138,6 +141,7 @@ def run(protocol: protocol_api.ProtocolContext):
 This line tells the robot 'There is a function, it is called 'run.' That function is a 'protocol' and it has a 'context' called 'ProtocolContext.'
 It is a little esoteric, but this is the function that the robot will actually execute.  The 'context' is a bunch of information, including the metadata you defined earlier and the hardware configuration (which you haven't told it but it knows) for the robot.
 
+#Hardware
 The next block defines most of the 'hardware' available to the robot:
 ```python
 	tiprack = protocol.load_labware('opentrons_96_tiprack_300ul', 1)
@@ -166,7 +170,7 @@ Tells the robot that there is a single channel p300 available on the 'left' posi
 
 So that defines all of the resources we wan the robot to have access to during the protocol: the place to get tips is 'tiprack,' the place to get liquid is 'reservoir,' the place to put liquid is 'plate,' the pipetteman the robot will be using is 'p300.'
 
-
+#Actions using that hardware
 The next portion of the code defines what we want the robot to do with these tools.
 We will walk through this section in some detail to be sure we know what is going on at every step.
 
