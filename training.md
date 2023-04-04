@@ -81,12 +81,14 @@ def run(protocol: protocol_api.ProtocolContext):
 		p300.transfer(100, row[:11], row[1:], mix_after=(3, 50))
 ```
 
-This protocol contains three sections:
+This protocol contains three main sections:
 
 First, the imported packages:
 ```python
 from opentrons import protocol_api
 ```
+Here, we import any of the 'packages' that we might need access to in order to execute our program. In different settings, this might have different things (e.g. math, os, sys, sklearn, etc...), but, for this protocol we only need the opentrons API.
+
 
 Second, the metadata that the Opentrons API requires:
 ```python
@@ -101,8 +103,9 @@ metadata = {
     'author': 'New API User'
     }
 ```
+This is a mandatory section for any Opentrons protocol and it must contain, at a minimum, the information provided above. Most critical is the API level which tells the robot which version of the firmware it should be using to interpret your protocol.
 
-Third, the protocol functions:
+Third, the protocol itself:
 ```python
 def run(protocol: protocol_api.ProtocolContext):
         tiprack = protocol.load_labware('opentrons_96_tiprack_300ul', 1)
@@ -125,3 +128,39 @@ def run(protocol: protocol_api.ProtocolContext):
                 # dilute the sample down the row
                 p300.transfer(100, row[:11], row[1:], mix_after=(3, 50))    
 ```
+This section contains the meat of what you would like the robot to do.  It must be defined as a function ('def') and it must be called 'run'.
+
+Lets walk though this section line by line.
+
+```python
+def run(protocol: protocol_api.ProtocolContext):
+```
+This line tells the robot 'There is a function, it is called 'run.' That function is a 'protocol' and it has a 'context' called 'ProtocolContext.'
+It is a little esoteric, but this is the function that the robot will actually execute.  The 'context' is a bunch of information, including the metadata you defined earlier and the hardware configuration (which you haven't told it but it knows) for the robot.
+
+The next block defines most of the 'hardware' available to the robot:
+```python
+	tiprack = protocol.load_labware('opentrons_96_tiprack_300ul', 1)
+        reservoir = protocol.load_labware('nest_12_reservoir_15ml', 2)
+        plate = protocol.load_labware('nest_96_wellplate_200ul_flat', 3)
+        p300 = protocol.load_instrument('p300_single_gen2', 'left', tip_racks=[tiprack]) 
+```
+
+The first three lines define objects that are in specific locations on the deck and defines handles for those objects.
+```python
+tiprack = protocol.load_labware('opentrons_96_tiprack_300ul', 1)
+```
+Tells the robot there is a 96 tip rack of 300ul tips available at deck position 1 and that object is called 'tiprack.'
+```python
+reservoir = protocol.load_labware('nest_12_reservoir_15ml', 2)
+```
+Tells the robot that there is a 12 slot (15ml per slot) reservoir at deck position 2 and that object is called 'reservoir.'
+```python
+        plate = protocol.load_labware('nest_96_wellplate_200ul_flat', 3)
+```
+Tells the robot that there is a 200ul 96 well plate at position 3 on the deck and that object is called 'plate.'
+```python
+        p300 = protocol.load_instrument('p300_single_gen2', 'left', tip_racks=[tiprack]) 
+```
+Tells the robot that there is a single channel p300 available on the 'left' position of the gantry arm, that its default tip source is 'tiprack' and that that object is called 'p300.'
+
