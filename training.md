@@ -21,22 +21,39 @@ To install the Opentrons Python API you will need to do the following:
 - Open a command line and type: ‘pip3 install opentrons’
 
 ---
-## 0.1 Acessing and prgramming our OT-2 robots
+## 0.1 Interfacing with our OT-2 robots
 
 Once the Opentrons app is installed, you should be able to access our robots.
 - Connect to the Arcadia wifi or wired network.
 - Run the opentrons app.
 - Select ‘Devices’ from the left panel, you should now find both robots.
 
-COMPLETE THIS FOR RUNNING UPLOADED PROTOCOLS AND CALIBRATING THE MACHINES
+---
+## 1.0 The Opentrons hardware
+
+Opentrons hardware we have available:
+- 2 O2-t robots
+- 3 GEN1 temperature modules (temp range 4-95 C)
+- 3 GEN1 magnetic modules
+- 1 GEN1 polymerase chain reaction module
+
 
 ---
-## 0.2 The Opentrons deck and attachments
+## 2.0 The Opentrons software
 
-COMPLETE THIS
+Within the Opentrons software there are three tabs on the left: Protocols, Labware, Devices
+
+- Protocols
+This button provides a list of the protocols that have been imported to your Opentrons software. At the upper left you can use the 'import' button to import a new protocol. After selecting an individual protocol, you can 'examine' that protocol or run a protocol from this dialog.
+
+- Labware
+This provides a list of available 'labware.' Each piece of labware that can be placed on the deck must has a formatting file that indicates its dimensions, well number etc...  You can create these files for custom labware, but this is beyond the scope of this training. As with the 'Protocols' dialoge, you can import new 'Labware' files by selecting 'Import' at the upper left.
+
+- Devices
+Here you should find a list of the available devices.  From this dialoge you can select a device and run a protocol on a particular device.  You can also recalibrate the devices after changing one of the pipettes.  You can also control the modules manually.  You may want to control a module manually if, for example, you need to pre-head a temperature block prior to running your protocol.
 
 ---
-## 1.0 Anatomy of an Opentrons protocol
+## 3.0 Anatomy of an Opentrons protocol
 
 We are going to start by going through an example protocol which was developed by Opentrons for training.
 This protocol is for generating serial dilutions on a 96 well plate.
@@ -173,7 +190,6 @@ So that defines all of the resources we wan the robot to have access to during t
 The next portion of the code defines what we want the robot to do with these tools.
 We will walk through this section in some detail to be sure we know what is going on at every step.
 
-
 Lets look at the next few lines:
 ```python
 p300.transfer(100, reservoir['A1'], plate.wells())
@@ -197,8 +213,78 @@ plate.wells()
 ```
 Because we defined 'plate' as nest_96_wellplate_200ul_flat' the robot knows that the 'plate' object has an atribute called 'wells()' which can be iterated over.  Furthermore, it knows that it should iterate over all of the wells if any one well isn't specified.
 
+
 This next chunk of code takes advantage of a few other features of the API to iterate through specific rows in the plate.
 ```python
+# loop through each row
+for i in range(8):
+
+	# save the destination row to a variable
+	row = plate.rows()[i]
+
+	# transfer solution to first well in column
+        p300.transfer(100, reservoir['A2'], row[0], mix_after=(3, 50))
+
+        # dilute the sample down the row
+        p300.transfer(100, row[:11], row[1:], mix_after=(3, 50))    
+```
+
+More pedantry:
+```python
+for i in range(8):
+```
+This starts a 'for' loop where, for each value in the range 0-7 we will define a variable i to be that value then execute the subsequent code.
+
+For each execution of the loop we do each of the following:
+First:
+```python 
+	row = plate.rows()[i]
+```
+This defines a variable 'row' to be a specific row object from the plate.  On the second iteration of the loop, the variable `i` will equal 1 (python starts counting at 0).  This line will define the variable `row` as row B of our 96 well plate.
+
+Second:
+```python 
+        p300.transfer(100, reservoir['A2'], row[0], mix_after=(3, 50))
+```
+This line uses the p300 to transfer 100ul from position A2 in the reservoir to position [0] (column 1 on the 96 well plate) in the current row.  After dispensing the liquid, the sample is mixed 3 times with a stroke of 50ul.
+
+Third:
+```python 
+        p300.transfer(100, row[:11], row[1:], mix_after=(3, 50))
+```
+This line dilutes the sample that was just moved down the current row.  It uses the p300 to transfer 100ul from each position in the row (up to position 11), to the next position in the row.  After each transfer it mixes 3 times with a stroke of 50ul.
+This line could be a little confusing.  Embedded in this function is a loop. The loop is defined here: `row[:11], row[1:]`.  This notation provides a list of wells to the `transfer` function. `row[:11]` = `[row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10]]` and 'row[1:]' is a similar list starting with 1 and ending at the end of the row.  If you provide transfer with a list of locations in this format, it will move through both lists at the same time.  So, the first move it will do is from `row[0]` to `row[1]` then `row[1]` to `row[2]` and so on.
+
+And, thats it!that is a protocol that will move a sample to be diluted into the first row of a 96 well plate and then conduct serial dilutions on each transfered sample.
+
+
+### 3.1 Changes
+To provide some intuition about how to change a protocol to suit your needs, we will make some small changes to this protocol.
+Here it is again:
+
+```python
+from opentrons import protocol_api
+
+metadata = {
+    'apiLevel': '2.13',
+    'protocolName': 'Serial Dilution Tutorial',
+    'description': '''This protocol is the outcome of following the
+                   Python Protocol API Tutorial located at
+                   https://docs.opentrons.com/v2/tutorial.html. It takes a
+                   solution and progressively dilutes it by transferring it
+                   stepwise across a plate.''',
+    'author': 'New API User'
+    }
+
+def run(protocol: protocol_api.ProtocolContext):
+        tiprack = protocol.load_labware('opentrons_96_tiprack_300ul', 1)
+        reservoir = protocol.load_labware('nest_12_reservoir_15ml', 2)
+        plate = protocol.load_labware('nest_96_wellplate_200ul_flat', 3)
+        p300 = protocol.load_instrument('p300_single_gen2', 'left', tip_racks=[tiprack])
+
+        # distribute diluent
+        p300.transfer(100, reservoir['A1'], plate.wells())
+
         # loop through each row
         for i in range(8):
 
@@ -209,5 +295,88 @@ This next chunk of code takes advantage of a few other features of the API to it
                 p300.transfer(100, reservoir['A2'], row[0], mix_after=(3, 50))
 
                 # dilute the sample down the row
-                p300.transfer(100, row[:11], row[1:], mix_after=(3, 50))    
+                p300.transfer(100, row[:11], row[1:], mix_after=(3, 50))
+```
+
+Lets say we want to do something simple like only do dilutions in the first 4 rows not all 8. To do this we make 2 changes.  First, we only put diluent in the first 8 lanes. Second, we change the number of iterations in the loop. 
+Here is the new code:
+```python
+from opentrons import protocol_api
+
+metadata = {
+    'apiLevel': '2.13',
+    'protocolName': 'Serial Dilution Tutorial',
+    'description': '''This protocol is the outcome of following the
+                   Python Protocol API Tutorial located at
+                   https://docs.opentrons.com/v2/tutorial.html. It takes a
+                   solution and progressively dilutes it by transferring it
+                   stepwise across a plate.''',
+    'author': 'New API User'
+    }
+
+def run(protocol: protocol_api.ProtocolContext):
+        tiprack = protocol.load_labware('opentrons_96_tiprack_300ul', 1)
+        reservoir = protocol.load_labware('nest_12_reservoir_15ml', 2)
+        plate = protocol.load_labware('nest_96_wellplate_200ul_flat', 3)
+        p300 = protocol.load_instrument('p300_single_gen2', 'left', tip_racks=[tiprack])
+
+        # distribute diluent
+        p300.transfer(100, reservoir['A1'], plate.rows()[:4])
+
+        # loop through each row
+        for i in range(4):
+
+                # save the destination row to a variable
+                row = plate.rows()[i]
+
+                # transfer solution to first well in column
+                p300.transfer(100, reservoir['A2'], row[0], mix_after=(3, 50))
+
+                # dilute the sample down the row
+                p300.transfer(100, row[:11], row[1:], mix_after=(3, 50))
+```
+
+OK, something a little more complicated
+After running our titration, we want to wait 30min for our reaction to run then add another reagent to the wells.  To do this we need to load a module called 'time' which is part of the core python package. Then add a line that causes the system to pause, then add another transfer function.
+Here is the new code:
+
+```python
+from opentrons import protocol_api
+import time as tm
+
+metadata = {
+    'apiLevel': '2.13',
+    'protocolName': 'Serial Dilution Tutorial',
+    'description': '''This protocol is the outcome of following the
+                   Python Protocol API Tutorial located at
+                   https://docs.opentrons.com/v2/tutorial.html. It takes a
+                   solution and progressively dilutes it by transferring it
+                   stepwise across a plate.''',
+    'author': 'New API User'
+    }
+
+def run(protocol: protocol_api.ProtocolContext):
+        tiprack = protocol.load_labware('opentrons_96_tiprack_300ul', 1)
+        reservoir = protocol.load_labware('nest_12_reservoir_15ml', 2)
+        plate = protocol.load_labware('nest_96_wellplate_200ul_flat', 3)
+        p300 = protocol.load_instrument('p300_single_gen2', 'left', tip_racks=[tiprack])
+
+        # distribute diluent
+        p300.transfer(100, reservoir['A1'], plate.wells())
+
+        # loop through each row
+        for i in range(8):
+
+                # save the destination row to a variable
+                row = plate.rows()[i]
+
+                # transfer solution to first well in column
+                p300.transfer(100, reservoir['A2'], row[0], mix_after=(3, 50))
+
+                # dilute the sample down the row
+                p300.transfer(100, row[:11], row[1:], mix_after=(3, 50))
+
+        tm.sleep(30*60) #sleep expects time in seconds.  30*60 will sleep for 30 min.
+
+        p300.transfer(20, reservoir['A3'], plate.wells(), mix_after=(3,50))
 ```
