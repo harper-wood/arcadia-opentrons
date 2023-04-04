@@ -47,7 +47,7 @@ So, lets look at the code:
 
 
 
-```python
+<pre>python
 from opentrons import protocol_api
 
 metadata = {
@@ -81,4 +81,4 @@ def run(protocol: protocol_api.ProtocolContext):
 
 		# dilute the sample down the row
 		p300.transfer(100, row[:11], row[1:], mix_after=(3, 50))
-```
+<pre>
