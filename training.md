@@ -173,9 +173,12 @@ So that defines all of the resources we wan the robot to have access to during t
 The next portion of the code defines what we want the robot to do with these tools.
 We will walk through this section in some detail to be sure we know what is going on at every step.
 
-Lets look at the next few lines.
+
+Lets look at the next few lines:
 ```python
 #distribute diluent
 p300.transfer(100, reservoir['A1'], plate.wells())
 ```
-
+Here, we are asking the robot to use the 'p300' object to 'transfer' 100ul from reservoir position A1 to all of the wells in the 'plate'.
+This is kind of a lot packed into a small amount of code, but it takes advantage of many aspects of the API that make programming the opentrons relatively easy.
+Because we defined 'p300' as 'p300_single_gen2' the robot knows that the 'p300' object has a 'attribute' called 'transfer' and that 'transfer' requires a series of inputs: first, how much to transfer(100ul); second, where to transfer from(reservoir['A1']); third, where to transfer to (plate.wells()).
