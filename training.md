@@ -156,11 +156,23 @@ reservoir = protocol.load_labware('nest_12_reservoir_15ml', 2)
 ```
 Tells the robot that there is a 12 slot (15ml per slot) reservoir at deck position 2 and that object is called 'reservoir.'
 ```python
-        plate = protocol.load_labware('nest_96_wellplate_200ul_flat', 3)
+plate = protocol.load_labware('nest_96_wellplate_200ul_flat', 3)
 ```
 Tells the robot that there is a 200ul 96 well plate at position 3 on the deck and that object is called 'plate.'
 ```python
-        p300 = protocol.load_instrument('p300_single_gen2', 'left', tip_racks=[tiprack]) 
+p300 = protocol.load_instrument('p300_single_gen2', 'left', tip_racks=[tiprack]) 
 ```
 Tells the robot that there is a single channel p300 available on the 'left' position of the gantry arm, that its default tip source is 'tiprack' and that that object is called 'p300.'
+
+So that defines all of the resources we wan the robot to have access to during the protocol: the place to get tips is 'tiprack,' the place to get liquid is 'reservoir,' the place to put liquid is 'plate,' the pipetteman the robot will be using is 'p300.'
+
+
+The next portion of the code defines what we want the robot to do with these tools.
+We will walk through this section in some detail to be sure we know what is going on at every step.
+
+Lets look at the next few lines.
+```python
+# distribute diluent
+p300.transfer(100, reservoir['A1'], plate.wells())
+```
 
