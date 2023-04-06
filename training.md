@@ -1,6 +1,6 @@
 # Introduction to opentrons
 
-This tutorial will help you to access and program our OT-2 Opentrons liquid handling robots. The OT-2 is very flexible with both a low-ish level [python API](https://docs.opentrons.com/v2/) as well as a graphical programming interface called the ‘Protocol Designer’; both are available [here](https://opentrons.com/protocols/).  There is also a [very large code base](https://protocols.opentrons.com/) with many developed protocols. A set of getting started tutorials is available [here](https://support.opentrons.com/s/ot2-get-started).
+This tutorial will help you to access and program our OT-2 Opentrons liquid handling robots. The OT-2 is very flexible with both a low-ish level [python API](https://docs.opentrons.com/v2/) as well as a graphical programming interface called the ‘Protocol Designer’; both are available [here](https://opentrons.com/protocols/). There is also a [very large code base](https://protocols.opentrons.com/) with many developed protocols. A set of getting started tutorials is available [here](https://support.opentrons.com/s/ot2-get-started).
 
 ---
 ## 0.0 Installing software
@@ -10,10 +10,10 @@ This tutorial will help you to access and program our OT-2 Opentrons liquid hand
 To access and program the Opentrons instruments using protocols written with the 'Protocol Designer' or written with python you will need the Opentrons app. The app is available for Mac, Windows, and Linux and you can download it [here](https://opentrons.com/ot-app/).
 Once downloaded, you will need to follow the OS specific instructions available [here](https://support.opentrons.com/s/article/Get-started-Download-and-install-the-Opentrons-App).
 
-### Installing Python and the opntrons Python API
+### Installing Python and the Opentrons Python API
 
 Basic programming of the opentrons is available using the 'Protocol Designer' but, for more complex programming, the Python API is extremely helpful. Furthermore, if you are familiar with Python even simple tasks are easier to develop using the Python API.
-The API consists of two components, a Python library for developing softwre that will interface with the Opentrons hardware and a simulator that will allow you to evaluate your programs prior to uploading them to the machines.
+The API consists of two components, a Python library for developing software that will interface with the Opentrons hardware and a simulator that will allow you to evaluate your programs prior to uploading them to the machines.
 
 To install the Opentrons Python API you will need to do the following:
 - If you haven’t already, install python3.  At the command line: ```conda install python```
@@ -58,11 +58,11 @@ Here you should find a list of the available devices.  From this dialoge you can
 
 We are going to start by going through an example protocol which was developed by Opentrons for training.
 This protocol is for generating serial dilutions on a 96 well plate.
-The github repository for this example is availbale [here](https://github.com/Opentrons/opentrons/blob/edge/api/docs/v2/example_protocols/dilution_tutorial.py)
-and a full walkthrough of the example is available [here](https://docs.opentrons.com/v2/tutorial.html#tutorial)
+The GitHub repository for this example is available [here](https://github.com/Opentrons/opentrons/blob/edge/api/docs/v2/example_protocols/dilution_tutorial.py)
+and a full walkthrough of the example is available [here](https://docs.opentrons.com/v2/tutorial.html#tutorial).
 
 ### Everything
-Lets look at the code for this protocol:
+Let's look at the code for this protocol:
 
 ```python
 from opentrons import protocol_api
@@ -256,7 +256,7 @@ Third:
 This line dilutes the sample that was just moved down the current row.  It uses the p300 to transfer 100ul from each position in the row (up to position 11), to the next position in the row.  After each transfer it mixes 3 times with a stroke of 50ul.
 This line could be a little confusing.  Embedded in this function is a loop. The loop is defined here: `row[:11], row[1:]`.  This notation provides a list of wells to the `transfer` function. `row[:11]` = `[row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10]]` and 'row[1:]' is a similar list starting with 1 and ending at the end of the row.  If you provide transfer with a list of locations in this format, it will move through both lists at the same time.  So, the first move it will do is from `row[0]` to `row[1]` then `row[1]` to `row[2]` and so on.
 
-And, thats it!that is a protocol that will move a sample to be diluted into the first row of a 96 well plate and then conduct serial dilutions on each transfered sample.
+And, that's it! That is a protocol that will move a sample to be diluted into the first row of a 96 well plate and then conduct serial dilutions on each transferred sample.
 
 
 ### 3.1 Changes
@@ -337,7 +337,7 @@ def run(protocol: protocol_api.ProtocolContext):
                 p300.transfer(100, row[:11], row[1:], mix_after=(3, 50))
 ```
 
-OK, something a little more complicated
+OK, something a little more complicated.
 After running our titration, we want to wait 30min for our reaction to run then add another reagent to the wells.  To do this we need to load a module called 'time' which is part of the core python package. Then add a line that causes the system to pause, then add another transfer function.
 Here is the new code:
 
