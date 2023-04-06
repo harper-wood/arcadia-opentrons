@@ -13,7 +13,7 @@ Once downloaded, you will need to follow the OS specific instructions available 
 ### Installing Python and the opntrons Python API
 
 Basic programming of the opentrons is available using the 'Protocol Designer' but, for more complex programming, the Python API is extremely helpful. Furthermore, if you are familiar with Python even simple tasks are easier to develop using the Python API.
-The API consists of two components, a Python library for developing softwre that will interface with the Opentrons hardware and a simulator that will allow you to evaluate your programs prior to uploading them to the machines.
+The API consists of two components, a Python library for developing software that will interface with the Opentrons hardware and a simulator that will allow you to evaluate your programs prior to uploading them to the machines.
 
 To install the Opentrons Python API you will need to do the following:
 - If you haven’t already, install python3.  A tutorial for this is available [here](https://realpython.com/installing-python/).
