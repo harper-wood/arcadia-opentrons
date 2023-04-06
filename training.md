@@ -336,7 +336,7 @@ def run(protocol: protocol_api.ProtocolContext):
                 p300.transfer(100, row[:11], row[1:], mix_after=(3, 50))
 ```
 
-OK, something a little more complicated
+OK, something a little more complicated.
 After running our titration, we want to wait 30min for our reaction to run then add another reagent to the wells.  To do this we need to load a module called 'time' which is part of the core python package. Then add a line that causes the system to pause, then add another transfer function.
 Here is the new code:
 
