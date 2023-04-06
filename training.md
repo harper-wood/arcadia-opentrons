@@ -255,7 +255,7 @@ Third:
 This line dilutes the sample that was just moved down the current row.  It uses the p300 to transfer 100ul from each position in the row (up to position 11), to the next position in the row.  After each transfer it mixes 3 times with a stroke of 50ul.
 This line could be a little confusing.  Embedded in this function is a loop. The loop is defined here: `row[:11], row[1:]`.  This notation provides a list of wells to the `transfer` function. `row[:11]` = `[row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10]]` and 'row[1:]' is a similar list starting with 1 and ending at the end of the row.  If you provide transfer with a list of locations in this format, it will move through both lists at the same time.  So, the first move it will do is from `row[0]` to `row[1]` then `row[1]` to `row[2]` and so on.
 
-And, thats it!that is a protocol that will move a sample to be diluted into the first row of a 96 well plate and then conduct serial dilutions on each transfered sample.
+And, that's it! That is a protocol that will move a sample to be diluted into the first row of a 96 well plate and then conduct serial dilutions on each transferred sample.
 
 
 ### 3.1 Changes
