@@ -19,6 +19,5 @@ After downloading you will need to follow the OS specific installation instructi
 https://support.opentrons.com/s/article/Get-started-Download-and-install-the-Opentrons-App
 
 ## Installing the opentrons python API
-- If you haven’t already, install python3.  A tutorial for this is available here: (https://realpython.com/installing-python/).
-- If you haven’t already, install pip.  A tutorial for this is available here: (https://pip.pypa.io/en/stable/installation/).
-- Open a command line and type: ‘pip3 install opentrons’
+- If you haven’t already, install python3. At the command line: ```conda install python```
+- Install the Opentrons API: ```conda install -c conda-forge opentrons```

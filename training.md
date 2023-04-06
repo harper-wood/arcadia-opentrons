@@ -16,9 +16,10 @@ Basic programming of the opentrons is available using the 'Protocol Designer' bu
 The API consists of two components, a Python library for developing softwre that will interface with the Opentrons hardware and a simulator that will allow you to evaluate your programs prior to uploading them to the machines.
 
 To install the Opentrons Python API you will need to do the following:
-- If you haven’t already, install python3.  A tutorial for this is available [here](https://realpython.com/installing-python/).
-- If you haven’t already, install pip.  A tutorial for this is available [here](https://pip.pypa.io/en/stable/installation/).
-- Open a command line and type: ‘pip3 install opentrons’
+- If you haven’t already, install python3.  At the command line: ```conda install python```
+- Install the Opentrons API: ```conda install -c conda-forge opentrons```
+
+Note: if the conda installations don't work, you can install the Opentrons API with pip: ```pip install opentrons```
 
 ---
 ## 0.1 Interfacing with our OT-2 robots
