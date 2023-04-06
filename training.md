@@ -61,7 +61,7 @@ The GitHub repository for this example is available [here](https://github.com/Op
 and a full walkthrough of the example is available [here](https://docs.opentrons.com/v2/tutorial.html#tutorial).
 
 ### Everything
-Lets look at the code for this protocol:
+Let's look at the code for this protocol:
 
 ```python
 from opentrons import protocol_api
