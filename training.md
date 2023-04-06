@@ -57,7 +57,7 @@ Here you should find a list of the available devices.  From this dialoge you can
 
 We are going to start by going through an example protocol which was developed by Opentrons for training.
 This protocol is for generating serial dilutions on a 96 well plate.
-The github repository for this example is availbale [here](https://github.com/Opentrons/opentrons/blob/edge/api/docs/v2/example_protocols/dilution_tutorial.py)
+The GitHub repository for this example is available [here](https://github.com/Opentrons/opentrons/blob/edge/api/docs/v2/example_protocols/dilution_tutorial.py)
 and a full walkthrough of the example is available [here](https://docs.opentrons.com/v2/tutorial.html#tutorial)
 
 ### Everything
