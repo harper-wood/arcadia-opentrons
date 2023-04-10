@@ -29,9 +29,9 @@ To use the opentrons robot you will need to download and install the opentrons a
 
 ## Installing the opentrons python API
 
-- If you haven’t already, install python3.  A tutorial for this is available [here](https://realpython.com/installing-python/).
-- If you haven’t already, install pip.  A tutorial for this is available [here](https://pip.pypa.io/en/stable/installation/).
-- Open a command line and type: ‘pip3 install opentrons’
+- If you haven't already, install conda. You can find installation instructions [here](https://training.arcadiascience.com/arcadia-users-group/20221017-conda/lesson/#installing-conda).
+- Create a conda environment to install opentrons: `conda create -n opentrons -c conda-forge opentrons`
+- Activate the conda environment: `conda activate opentrons`
 
 ## Accessing our OT-2 robots
 

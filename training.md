@@ -16,8 +16,9 @@ Basic programming of the opentrons is available using the 'Protocol Designer' bu
 The API consists of two components, a Python library for developing software that will interface with the Opentrons hardware and a simulator that will allow you to evaluate your programs prior to uploading them to the machines.
 
 To install the Opentrons Python API you will need to do the following:
-- If you haven’t already, install python3.  At the command line: ```conda install python```
-- Install the Opentrons API: ```conda install -c conda-forge opentrons```
+- If you haven't already, install conda. You can find installation instructions [here](https://training.arcadiascience.com/arcadia-users-group/20221017-conda/lesson/#installing-conda).
+- Create a conda environment to install opentrons: `conda create -n opentrons -c conda-forge opentrons`
+- Activate the conda environment: `conda activate opentrons`
 
 Note: if the conda installations don't work, you can install the Opentrons API with pip: ```pip install opentrons```
 
@@ -48,10 +49,10 @@ Within the Opentrons software there are three tabs on the left: Protocols, Labwa
 This button provides a list of the protocols that have been imported to your Opentrons software. At the upper left you can use the 'import' button to import a new protocol. After selecting an individual protocol, you can 'examine' that protocol or run a protocol from this dialog.
 
 - Labware
-This provides a list of available 'labware.' Each piece of labware that can be placed on the deck must has a formatting file that indicates its dimensions, well number etc...  You can create these files for custom labware, but this is beyond the scope of this training. As with the 'Protocols' dialoge, you can import new 'Labware' files by selecting 'Import' at the upper left.
+This provides a list of available 'labware.' Each piece of labware that can be placed on the deck must has a formatting file that indicates its dimensions, well number etc. You can create these files for custom labware, but this is beyond the scope of this training. As with the 'Protocols' dialog, you can import new 'Labware' files by selecting 'Import' at the upper left.
 
 - Devices
-Here you should find a list of the available devices.  From this dialoge you can select a device and run a protocol on a particular device.  You can also recalibrate the devices after changing one of the pipettes.  You can also control the modules manually.  You may want to control a module manually if, for example, you need to pre-head a temperature block prior to running your protocol.
+Here you should find a list of the available devices. From this dialog you can select a device and run a protocol on a particular device. You can also re-calibrate the devices after changing one of the pipettes.  You can also control the modules manually. You may want to control a module manually if, for example, you need to pre-heat a temperature block prior to running your protocol.
 
 ---
 ## 3.0 Anatomy of an Opentrons protocol
