@@ -3,7 +3,7 @@ from opentrons import protocol_api
 # metadata
 metadata = {
     'protocolName': 'Purification',
-    'author': 'Atanas',
+    'author': 'Atanas, Harper',
     'description': 'e. coli chem comp cells purification in 96 well block',
     'apiLevel': '2.13'
 }
