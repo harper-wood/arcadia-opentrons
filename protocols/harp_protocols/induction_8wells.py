@@ -2,11 +2,15 @@ from opentrons import protocol_api
 
 # metadata
 metadata = {
-    'protocolName': 'Induction',
+    'protocolName': 'e. Coli Induction: 8 Wells of Cells in 96 Well Block',
     'author': 'Atanas, Harper',
     'description': 'e. coli induction in  96 well block',
     'apiLevel': '2.13'
 }
+
+
+#to follow along with the protocol in Notion, search for "Automated E. coli Induction on the Opentrons" which lives in the Protocol section of Harper's ELN
+
 
 # protocol run function
 def run(protocol: protocol_api.ProtocolContext):
