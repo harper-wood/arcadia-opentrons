@@ -2,11 +2,16 @@ from opentrons import protocol_api
 
 # metadata
 metadata = {
-    'protocolName': 'Transformation',
+    'protocolName': 'e. Coli Transformation on the Opentrons: 8 Wells in a 96 Well Block',
     'author': 'Atanas, Harper',
     'description': 'e. coli chem comp cells transformation in 96 well block',
     'apiLevel': '2.13'
 }
+
+
+#to follow along with the protocol in Notion, search for "Automated E. coli Transformation on the Opentrons" which lives in the Protocol section of Harper's ELN
+
+
 
 # protocol run function
 def run(protocol: protocol_api.ProtocolContext):
